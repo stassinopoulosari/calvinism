@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/dark.min.css"
+        />
+        <style>
+            html {
+                background-color: #250d49;
+                color: #e1e4e8;
+                padding: 0.25em;
+                font-family: monospace;
+            }
+            #chrome {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                padding: 1em;
+            }
+            header {
+                background-color: #150139;
+                margin: -1em;
+                padding: 1em;
+                display: flex;
+                flex-direction: row;
+            }
+            #filename {
+                display: block;
+                flex: 1;
+            }
+            #error {
+                pointer-events: none;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background-color: red;
+                opacity: 0;
+                transition: 1s opacity ease-in-out;
+                padding: 1em;
+                color: #000;
+            }
+            #error.shown {
+                opacity: 1;
+            }
+        </style>
+        <title>calvinism</title>
+    </head>
+    <body>
+        <div id="chrome">
+            <header>
+                <span id="filename"></span>
+                <button id="copy">💾</button>
+            </header>
+            <pre id="content-container"><code id="content"></code></pre>
+        </div>
+        <div id="error"></div>
+    </body>
+    <script src="./calvinism.js" type="module"></script>
+</html>

@@ -9,13 +9,14 @@ const queryString = location.search,
 const retrieveCode = async (queryString) => {
     console.log(queryString);
     if (typeof queryString !== "string" || queryString === "") {
-      throw "Query string is null or non-string";
+      throw "Please provide a URI to use calvinism: https://ari-s.com/calvinism?uri={{your file}}";
     }
     const params = new URLSearchParams(queryString);
     if (params.get("uri") === null) {
       throw "URI is null";
     }
     const uri = params.get("uri"),
+      lang = params.get("lang"),
       network = await fetch(uri);
 
     if (!network.ok) {
@@ -24,13 +25,19 @@ const retrieveCode = async (queryString) => {
 
     const code = await network.text();
 
-    return { code: code, uri: uri };
+    return { code: code, uri: uri, lang: lang };
   },
-  renderCode = async ($code, $button, $filename, uri, code) => {
+  renderCode = async ($code, $button, $filename, uri, code, lang) => {
     try {
-      const highlightedCode = hljs.highlightAuto(code).value;
+      let highlightedCode = code;
+      if (typeof lang !== "string") {
+        highlightedCode = hljs.highlightAuto(code).value;
+      } else {
+        highlightedCode = hljs.highlight(code, { language: lang }).value;
+      }
       $code.innerHTML = highlightedCode;
     } catch (err) {
+      console.error(err);
       // TODO error
       $code.innerText = code;
     }
@@ -60,8 +67,8 @@ const retrieveCode = async (queryString) => {
   };
 
 try {
-  const { code, uri } = await retrieveCode(queryString);
-  renderCode($code, $button, $filename, uri, code);
+  const { code, uri, lang } = await retrieveCode(queryString);
+  renderCode($code, $button, $filename, uri, code, lang);
 } catch (error) {
   makeError($errorContainer, error);
 }

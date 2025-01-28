@@ -2,7 +2,10 @@ import hljs from "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/es
 
 const queryString = location.search,
   $code = document.querySelector("#content"),
-  $button = document.querySelector("#copy"),
+  $buttons = {
+    code: document.querySelector("#copy-code"),
+    curl: document.querySelector("#copy-curl"),
+  },
   $filename = document.querySelector("#filename"),
   $errorContainer = document.querySelector("#error");
 
@@ -17,6 +20,7 @@ const retrieveCode = async (queryString) => {
     }
     const uri = params.get("uri"),
       lang = params.get("lang"),
+      filename = params.get("filename"),
       network = await fetch(uri);
 
     if (!network.ok) {
@@ -25,9 +29,9 @@ const retrieveCode = async (queryString) => {
 
     const code = await network.text();
 
-    return { code: code, uri: uri, lang: lang };
+    return { code: code, uri: uri, lang: lang, filename: filename };
   },
-  renderCode = async ($code, $button, $filename, uri, code, lang) => {
+  renderCode = async ($code, code, lang) => {
     try {
       let highlightedCode = code;
       if (typeof lang !== "string") {
@@ -38,19 +42,27 @@ const retrieveCode = async (queryString) => {
       $code.innerHTML = highlightedCode;
     } catch (err) {
       console.error(err);
-      // TODO error
       $code.innerText = code;
     }
-    // Setup copy button
-    $button.onclick = async (e) => {
+  },
+  renderFilename = ($filename, filename) => {
+    $filename.innerText = filename;
+  },
+  renderCopyButtons = ($buttons, code, uri, filename) => {
+    $buttons.code.onmousedown = async (e) => {
       try {
         await navigator.clipboard.writeText(code);
       } catch (err) {
         throw "clipboard did not copy :(";
       }
     };
-    const filename = uri.split("/").slice(-1)[0];
-    $filename.innerText = filename;
+    $buttons.curl.onmousedown = async (e) => {
+      try {
+        await navigator.clipboard.writeText(`curl "${uri}" -o "${filename}"`);
+      } catch (err) {
+        throw "clipboard did not copy :(";
+      }
+    };
   },
   errorState = {
     errorTimeout: null,
@@ -67,8 +79,12 @@ const retrieveCode = async (queryString) => {
   };
 
 try {
-  const { code, uri, lang } = await retrieveCode(queryString);
-  renderCode($code, $button, $filename, uri, code, lang);
+  let { code, uri, lang, filename } = await retrieveCode(queryString);
+  filename = filename ?? uri.split("/").slice(-1)[0];
+  if (filename.trim() === "") filename = "code.txt";
+  renderCode($code, code, lang);
+  renderCopyButtons($buttons, code, uri, filename);
+  renderFilename($filename, filename);
 } catch (error) {
   makeError($errorContainer, error);
 }

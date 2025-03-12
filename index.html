@@ -1,85 +1,100 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/dark.min.css"
-        />
-        <style>
-            html {
-                background-color: #250d49;
-                color: #e1e4e8;
-                padding: 0.25em;
-                font-family: monospace;
-            }
-            #chrome {
-                position: absolute;
-                top: 0;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                padding: 1em;
-            }
-            header {
-                background-color: #150139;
-                margin: -1em;
-                padding: 1em;
-                display: flex;
-                align-items: center;
-                flex-direction: row;
-            }
-            #filename {
-                display: block;
-                flex: 1;
-            }
-            #error {
-                pointer-events: none;
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                background-color: red;
-                opacity: 0;
-                transition: 1s opacity ease-in-out;
-                padding: 1em;
-                color: #000;
-            }
-            #error.shown {
-                opacity: 1;
-            }
-            button {
-                background-color: rgba(0, 0, 0, 0);
-                border: 0.1px solid #fff;
-                border-radius: 1px;
-                padding: 0.5em;
-                margin-left: 1em;
-                color: #fff;
-                cursor: pointer;
-                transition: background-color 1s ease-in-out;
-            }
-            /* button:hover {
-                background-color: #0d2b13;
-                transition: background-color 0s;
-            } */
-            button:active {
-                background-color: rgba(0, 256, 0, 0.5);
-                transition: background-color 0s;
-            }
-        </style>
-        <title>calvinism</title>
-    </head>
-    <body>
-        <div id="chrome">
-            <header>
-                <span id="filename"></span>
-                <button id="copy-code">Copy Code</button>
-                <button id="copy-curl">Copy cURL</button>
-            </header>
-            <pre id="content-container"><code id="content"></code></pre>
-        </div>
-        <div id="error"></div>
-    </body>
-    <script src="./calvinism.js" type="module"></script>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+		/>
+		<style>
+			html {
+				background-color: #250d49;
+				color: #e1e4e8;
+				padding: 0.25em;
+				font-family: monospace;
+			}
+			#chrome {
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				padding: 0;
+			}
+			header {
+				background-color: rgb(85, 85, 85);
+				padding: 1em;
+				display: flex;
+				align-items: center;
+				flex-direction: row;
+				padding: 1em;
+				margin: 0;
+			}
+			#filename {
+				display: block;
+				flex: 1;
+			}
+			#error {
+				pointer-events: none;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				background-color: red;
+				opacity: 0;
+				transition: 1s opacity ease-in-out;
+				padding: 1em;
+				color: #000;
+			}
+			#error.shown {
+				opacity: 1;
+			}
+			#content,
+			#content-container {
+				margin: 0;
+			}
+			button {
+				background-color: rgba(0, 0, 0, 0);
+				border: 0.1px solid #fff;
+				border-radius: 1px;
+				padding: 0.5em;
+				margin-left: 1em;
+				color: #fff;
+				cursor: pointer;
+				transition: background-color 1s ease-in-out;
+			}
+
+			button:active {
+				background-color: rgba(0, 256, 0, 0.5);
+				transition: background-color 0s;
+			}
+
+			.hljs {
+				background-color: #1e0c3e;
+			}
+
+			#content.soft-wrap {
+				white-space: pre-wrap;
+			}
+
+			.hljs-built_in {
+				color: #ff7b72;
+				font-weight: bold;
+			}
+		</style>
+		<title>calvinism</title>
+	</head>
+	<body>
+		<div id="chrome">
+			<header>
+				<span id="filename"></span>
+				<button id="copy-code">Copy Code</button>
+				<button id="copy-curl">Copy cURL</button>
+			</header>
+			<pre id="content-container"><code id="content"></code></pre>
+		</div>
+		<div id="error"></div>
+	</body>
+	<script src="./calvinism.js" type="module"></script>
 </html>
